@@ -1,0 +1,19 @@
+services:
+  ollama:
+    build: ./ollama
+    volumes:
+      - ollama:/root/.ollama
+    ports:
+      - "11435:11434"
+
+  backend:
+    build: ./server
+    depends_on:
+      - ollama
+    environment:
+      OLLAMA_BASE: http://ollama:11435
+    ports:
+      - "8000:8000"
+
+volumes:
+  ollama:
